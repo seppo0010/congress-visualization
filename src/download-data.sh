@@ -1,0 +1,13 @@
+rsync -avz --delete --delete-excluded --exclude \*\*/text-versions/ govtrack.us::govtrackdata/congress/101/ 101/
+rsync -avz --delete --delete-excluded --exclude \*\*/text-versions/ govtrack.us::govtrackdata/congress/102/ 102/
+rsync -avz --delete --delete-excluded --exclude \*\*/text-versions/ govtrack.us::govtrackdata/congress/103/ 103/
+rsync -avz --delete --delete-excluded --exclude \*\*/text-versions/ govtrack.us::govtrackdata/congress/104/ 104/
+rsync -avz --delete --delete-excluded --exclude \*\*/text-versions/ govtrack.us::govtrackdata/congress/105/ 105/
+rsync -avz --delete --delete-excluded --exclude \*\*/text-versions/ govtrack.us::govtrackdata/congress/106/ 106/
+rsync -avz --delete --delete-excluded --exclude \*\*/text-versions/ govtrack.us::govtrackdata/congress/107/ 107/
+rsync -avz --delete --delete-excluded --exclude \*\*/text-versions/ govtrack.us::govtrackdata/congress/108/ 108/
+rsync -avz --delete --delete-excluded --exclude \*\*/text-versions/ govtrack.us::govtrackdata/congress/109/ 109/
+rsync -avz --delete --delete-excluded --exclude \*\*/text-versions/ govtrack.us::govtrackdata/congress/110/ 110/
+rsync -avz --delete --delete-excluded --exclude \*\*/text-versions/ govtrack.us::govtrackdata/congress/111/ 111/
+rsync -avz --delete --delete-excluded --exclude \*\*/text-versions/ govtrack.us::govtrackdata/congress/112/ 112/
+rsync -avz --delete --delete-excluded --exclude \*\*/text-versions/ govtrack.us::govtrackdata/congress/113/ 113/
