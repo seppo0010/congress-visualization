@@ -99,7 +99,7 @@ $(function() {
             $chartContainer.empty();
             $chartContainer.append($('<div>').attr('id', 'chart'))
             create_chart('chart', (chamber == 'representatives' ? representatives : senators)[congress]);
-            congressId.text(congress);
+            $congressId.text(congress);
         };
 
         $selectCongress.val(last_option);
