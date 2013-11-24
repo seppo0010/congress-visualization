@@ -1,0 +1,126 @@
+<head>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/highcharts-more.js"></script>
+<style type="">
+#chart-container {height: 400px; width: 930px; position: relative;}
+#arrows {padding: 4px 0px 0px 125px;}
+#credit {font-size: 13px; color: #404040; width: 930px; padding: 10px 0px 0px 17px;}
+</style>
+</head>
+<body>
+<script type="text/javascript">
+var create_chart = function(chartId, series) {
+    return new Highcharts.Chart({
+        chart: {
+            type: 'scatter',
+            renderTo: chartId,
+            backgroundColor: null,
+            zoomType: 'xy'
+        },
+        plotOptions: {
+            scatter: {
+                marker: {
+                    radius: 3,
+                    symbol: 'circle',
+                    states: {
+                            hover: {
+                                enabled: true,
+                                lineColor: 'black'
+                            }
+                    }
+                }
+            }
+        },
+
+        tooltip: {
+            formatter: function () {
+                return '<span style="font-size: 14px; font-weight: bold">' + this.series.name + '<br/>' + 'Percentage voting with party: <b>' + Highcharts.numberFormat(this.y, 1) + '%</b> <br/>';
+            }
+        },
+
+        title: {
+            text: null
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        yAxis: {
+            max: 100,
+            min: 60,
+            labels: {
+                format: '{value}%'
+            },
+            title: {
+                text: "Percentage of votes with respective party",
+                style: {
+                    fontWeight: 'normal',
+                    color: '#404040'
+                }
+            },
+        },
+
+        xAxis: {
+            labels: {
+                enabled:false
+            }
+        },
+
+        legend: {
+            enabled: false
+        },
+
+        series: series
+    });
+};
+$(function() {
+    $.when($.getJSON('representatives.json'), $.getJSON('senators.json')).done(
+            function(representatives_request, senators_request) {
+        var representatives = representatives_request[0];
+        var senators = senators_request[0];
+        var $selectChamber = $('#select-chamber');
+        var $selectCongress = $('#select-congress');
+        var $chartContainer = $('#chart-container');
+        var $congressId = $('#congress-id');
+        var last_option;
+        $.each(representatives, function(congress, series) {
+            $selectCongress.append($('<option>').val(congress).text(congress));
+            last_option = congress;
+        });
+
+        var refresh = function() {
+            var chamber = $selectChamber.val()
+            var congress = $selectCongress.val();
+            $chartContainer.empty();
+            $chartContainer.append($('<div>').attr('id', 'chart'))
+            create_chart('chart', (chamber == 'representatives' ? representatives : senators)[congress]);
+            congressId.text(congress);
+        };
+
+        $selectCongress.val(last_option);
+        $selectCongress.change(refresh);
+        $selectChamber.change(refresh);
+        refresh();
+    });
+});
+</script>
+<div id='filter'>
+Chamber
+<select id="select-chamber">
+    <option value="representatives">Representatives</option>
+    <option value="senators">Senators</option>
+</select>
+Congress <select id="select-congress"></select>
+</div>
+<div id='chart-container'></div>
+<div id='arrows'>
+    <img src='http://assets.nationaljournal.com/gfx/votebypartyarrows.png'></img>
+</div>
+<div id='credit'>Note: The chart above factors in every vote taken during the <span id="congress-id"></span> session of Congress. </div>
+<p>Inspired on <a href="http://www.nationaljournal.com/congress/this-is-what-congressional-gridlock-looks-like-in-1-chart-20131113">National Journal</a></p>
+</body>

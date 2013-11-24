@@ -3,6 +3,8 @@ import json
 import re
 import sys
 
+prefix = sys.argv[1] if len(sys.argv) > 1 else ''
+
 class Congress(object):
     def __init__(self, congress):
         self.congress = congress
@@ -39,7 +41,7 @@ class Congress(object):
                                sponsor['state'] == voter['state']):
                                 self.cache_sponsor[cache_key] = voter
                                 return voter
-        sys.stderr.write('Unable to find sponsor {}\n'.format(sponsor))
+        # sys.stderr.write('Unable to find sponsor {}\n'.format(sponsor))
         self.cache_sponsor[cache_key] = None
         return None
 
@@ -50,7 +52,9 @@ for i in range(101, 114):
     for root, dirs, files in os.walk(os.path.join(str(i), 'votes')):
         for f in files:
             if f == 'data.json':
-                sys.stderr.write('{}/{}\n'.format(root, f))
+                if not os.path.basename(root).startswith(prefix):
+                    continue
+                # sys.stderr.write('{}/{}\n'.format(root, f))
                 # print (os.path.join(root, f))
                 with open(os.path.join(root, f)) as fp:
                     vote_data = json.loads(fp.read())
